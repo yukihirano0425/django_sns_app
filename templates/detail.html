@@ -8,6 +8,10 @@
         <p>タイトル:{{object.title}}</p>
         <p>ユーザー:{{object.user}}</p>
         <p>コメント：{{object.body}}</p>
+
+        {% if object.user == request.user %}
+        <a href="{% url 'update' object.pk %}" class="btn btn-primary ms-3" tabindex="-1" role="button" aria-disabled="true">編集</a>
+        {% endif %}
     </div>
 </div>
 

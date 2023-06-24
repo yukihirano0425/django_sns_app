@@ -1,6 +1,6 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
-from django.views.generic import DetailView, ListView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from .models import Post
 
@@ -28,3 +28,33 @@ class MyPost(LoginRequiredMixin, ListView):
 class DetailPost(LoginRequiredMixin, DetailView):
     model = Post
     template_name = "detail.html"
+
+
+class CreatePost(LoginRequiredMixin, CreateView):
+    model = Post
+    template_name = "create.html"
+    fields = ["title", "body"]
+    success_url = reverse_lazy("mypost")
+
+    def form_valid(self, form):
+        # 投稿ユーザーをリクエストユーザーと紐付ける処理
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class UpdatePost(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    template_name = "update.html"
+    fields = ["title", "body"]
+    success_url = reverse_lazy("mypost")
+
+    def get_success_url(self, **kwargs):
+        # 編集完了後の遷移先
+        pk = self.kwargs["pk"]
+        return reverse_lazy("detail", kwargs={"pk": pk})
+
+    def test_func(self, **kwargs):
+        # アクセスできるユーザーを制限
+        pk = self.kwargs["pk"]
+        post = Post.objects.get(pk=pk)
+        return post.user == self.request.user
