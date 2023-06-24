@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import DetailView, ListView
 
 from .models import Post
 
@@ -23,3 +23,8 @@ class MyPost(LoginRequiredMixin, ListView):
     # 自分の投稿に限定
     def get_queryset(self):
         return Post.objects.filter(user=self.request.user)
+
+
+class DetailPost(LoginRequiredMixin, DetailView):
+    model = Post
+    template_name = "detail.html"

@@ -7,7 +7,7 @@ class Post(models.Model):
     user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __init__(self):
+    def __str__(self):
         return self.title
 
     class Meta:
