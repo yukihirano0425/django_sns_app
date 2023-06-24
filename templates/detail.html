@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class= "container">
+    <div class = "alert alert-success" role="alert">
+        {% comment %} DetailViewにより、objectにはPostが入る {% endcomment %}
+        <p>タイトル:{{object.title}}</p>
+        <p>ユーザー:{{object.user}}</p>
+        <p>コメント：{{object.body}}</p>
+    </div>
+</div>
+
+{% endblock %}
