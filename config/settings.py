@@ -4,6 +4,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+# setting.py -> config -> django_sns_app
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(verbose=True)
@@ -138,3 +139,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 SITE_ID = 1
 
 LOGIN_REDIRECT_URL = "home"
+
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
