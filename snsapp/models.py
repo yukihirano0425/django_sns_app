@@ -6,6 +6,7 @@ class Post(models.Model):
     body = models.TextField()
     user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    like = models.ManyToManyField("auth.User", related_name="related_post", blank=True)
 
     def __str__(self):
         return self.title
