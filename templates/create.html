@@ -1,9 +1,9 @@
 {% block content %}
-<form method="post">{% csrf_token %}
+<form method="post" enctype = "multipart/form-data">{% csrf_token %}
     {% comment %} form.as_pで、fieldsを指定できる {% endcomment %}
     {{ form.as_p }}
     <input type="submit" value="投稿">
-    
+
 </form>
 
 {% endblock content %}
