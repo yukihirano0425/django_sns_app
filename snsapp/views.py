@@ -1,5 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -76,3 +79,36 @@ class DeletePost(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         pk = self.kwargs["pk"]
         post = Post.objects.get(pk=pk)
         return post.user == self.request.user
+
+
+class LikeBase(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        pk = self.kargs["pk"]
+        related_post = Post.objects.get(pk=pk)
+
+        # いいねテーブル内にすでにユーザーが存在する場合
+        if self.request.user in related_post.like.all():
+            obj = related_post.like.remove(self.request.user)
+        else:
+            # テーブルにユーザーを追加
+            obj = related_post.like.add(self.request.user)
+        return obj
+
+
+class LikeHome(LikeBase):
+    def get(self, request, *args, **kwargs):
+        # LikeBaseでリターンしたobj情報を継承
+        # super().get(request, *args, **kwargs)
+        LikeBase().get(request, *args, **kwargs)
+        # homeにリダイレクト
+        return redirect("home")
+
+
+class LikeDetail(LikeBase):
+    def get(self, request, *args, **kwargs):
+        # LikeBaseでリターンしたobj情報を継承
+        # super().get(request, *args, **kwargs)
+        LikeBase().get(request, *args, **kwargs)
+        pk = self.kwargs["pk"]
+        # detailにリダイレクト
+        return redirect("detail", pk)

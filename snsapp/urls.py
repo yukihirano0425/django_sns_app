@@ -1,6 +1,15 @@
 from django.urls import path
 
-from .views import CreatePost, DeletePost, DetailPost, Home, MyPost, UpdatePost
+from .views import (
+    CreatePost,
+    DeletePost,
+    DetailPost,
+    Home,
+    LikeDetail,
+    LikeHome,
+    MyPost,
+    UpdatePost,
+)
 
 urlpatterns = [
     path("", Home.as_view(), name="home"),
@@ -10,4 +19,8 @@ urlpatterns = [
     path("detail/<int:pk>/update", UpdatePost.as_view(), name="update"),
     path("detail/<int:pk>/delete", DeletePost.as_view(), name="delete"),
     path("create/", CreatePost.as_view(), name="create"),
+    # 一覧ページからいいねした場合と詳細ページからいいねした場合で分ける
+    # TODO:いいねした時にリダイレクトさせずに同じページにとどまるようにJavascriptの非同期処理を実装する
+    path("like-home/<int:pk>", LikeHome.as_view(), name="like-home"),
+    path("like-detail/<int:pk>", LikeDetail.as_view(), name="like-detail"),
 ]
