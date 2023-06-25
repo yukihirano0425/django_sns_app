@@ -8,6 +8,7 @@
         <p>タイトル:{{object.title}}</p>
         <p>ユーザー:{{object.user}}</p>
         <p>コメント：{{object.body}}</p>
+        <img src = "{{object.image.url}}" alt="{{ object.title }}" class ="card-img-top">
 
         {% if object.user == request.user %}
         <a href="{% url 'update' object.pk %}" class="btn btn-primary ms-3" tabindex="-1" role="button" aria-disabled="true">編集</a>
