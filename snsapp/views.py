@@ -42,7 +42,7 @@ class DetailPost(LoginRequiredMixin, DetailView):
 class CreatePost(LoginRequiredMixin, CreateView):
     model = Post
     template_name = "create.html"
-    fields = ["title", "body"]
+    fields = ["title", "body", "image"]
     success_url = reverse_lazy("mypost")
 
     def form_valid(self, form):

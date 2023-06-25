@@ -3,6 +3,9 @@
 
 {% block content %}
 <div class="container mt-3">
+    <p>
+        <button onclick = "location.href='{% url 'create' %}'" class="btn btn-primary">新規投稿</button>
+    </p>
     {% for item in object_list %}
     <div class="alert alert-success" role="alert">
         <p>タイトル：<a href="{% url 'detail' item.pk %}">{{item.title}}</a></p>
@@ -11,6 +14,7 @@
         {% if item.image %}
             <img src="{{item.image.url}}" alt="{{ item.title }}" class="card-img-top">
         {% endif %}
+        <br>
         {% if request.user in item.like.all %}
             <a href="{% url 'like-home' item.pk %}" class="like-btn add-color" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-heart"></i></a>{{item.like.count}}
         {% else %}
